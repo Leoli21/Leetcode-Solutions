@@ -1,21 +1,18 @@
 def reverseKGroup(head, k):
-    dummy = ListNode(0)
-    dummy.next = head
-
+    dummy = ListNode(-1, head)
     prevGroup = dummy
-    while prevGroup:
-        node = prevGroup
+
+    while True:
+        startGroup = prevGroup
         count = 0
-        # Check whether there exists k nodes to reverse
-        while node and count < k:
-            node = node.next
+        while startGroup and count < k:
+            startGroup = startGroup.next
             count += 1
 
-        if not node:
+        if not startGroup:
             break
 
-        # Now we know we have k nodes, we will start reversal from first node
-        prev = None
+        prev = startGroup.next
         curr = prevGroup.next
 
         for i in range(k):
@@ -24,8 +21,8 @@ def reverseKGroup(head, k):
             prev = curr
             curr = temp
 
-        tail = prevGroup.next
-        tail.next = curr
-        prevGroup.next = prev
-        prevGroup = tail
+        endGroup = prevGroup.next
+        prevGroup.next = startGroup
+        prevGroup = endGroup
+
     return dummy.next
