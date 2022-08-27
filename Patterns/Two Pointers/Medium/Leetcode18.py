@@ -36,6 +36,28 @@ def fourSum(nums, target):
     kSum(0, len(nums) - 1, target, 4, [], result)
     return result
 
+def fourSum(nums, target):
+    if len(nums) < 4:
+        return []
+
+    nums.sort()
+    res = set()
+
+    for i in range(len(nums) - 3):
+        for j in range(i + 1, len(nums) - 2):
+            remainingTarget = target - nums[i] - nums[j]
+            l, r = j + 1, len(nums) - 1
+            while l < r:
+                curSum = nums[l] + nums[r]
+                if curSum == remainingTarget:
+                    res.add((nums[i], nums[j], nums[l], nums[r]))
+                    l += 1
+                elif curSum < remainingTarget:
+                    l += 1
+                else:
+                    r -= 1
+    return res
+
 nums = [1,0,-1,0,-2,2]
 target = 0
 print(fourSum(nums, target))
