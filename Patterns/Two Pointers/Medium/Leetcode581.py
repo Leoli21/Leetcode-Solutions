@@ -3,9 +3,9 @@ def findUnsortedSubarray(nums):
     maxSeen = nums[0]
 
     # Traversing array from left to right (ascending order)
-    # This means elements should be increasing as we move to right
+    # In the increasing loop, keeps track of previous maximum value, all numbers
+    # followed that is less than that value is out of place -> find the last out of place index
     for i in range(1, len(nums)):
-        # maxSeen = max(maxSeen, nums[i])
         if nums[i] < maxSeen:
             endPointer = i
         else:
@@ -14,17 +14,19 @@ def findUnsortedSubarray(nums):
     minSeen = nums[startPointer]
 
     # Traversing array from right to left (descending order)
-    # This means elements should be decreasing as we move to the left
+    # in the decreasing loop, keeps track of previous minimum value, all numbers followed
+    # that is bigger than that value is out of place -> find the earliest out of place index
     for i in range(len(nums) - 2, -1, -1):
-        # minSeen = min(minSeen, nums[i])
         if nums[i] > minSeen:
             startPointer = i
         else:
             minSeen = nums[i]
 
-    if endPointer > 0:
+    if endPointer != 0:
         return endPointer - startPointer + 1
 
+    # This would mean that the endPointer remained  at 0 and that the array is
+    # already in ascending order.
     else:
         return 0
 
