@@ -16,11 +16,15 @@ def findPeakElement(nums):
             return m
 
         # A peak lies to the left of our array, so decrease our search space to [1, m - 1]
+        # We can exclude value at 'm' as our answer because we know the value at 'm - 1' is greater
+        # and could be our answer.
         elif nums[m] < nums[m - 1]:
             r = m - 1
 
         # A peak must lie in the right portion of our array, so decrease our search space to:
         # [m + 1, len(nums) - 2]
+        # We can exclude the value at 'm' because we know that the value at 'm + 1' is greater than
+        # our current value at 'm', thus it could be the answer.
         elif nums[m] < nums[m + 1]:
             l = m + 1
 
