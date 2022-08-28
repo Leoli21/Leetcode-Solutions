@@ -41,7 +41,7 @@ def findClosestElements(arr, k, x):
     # leftmost or rightmost element in the subarray (eliminated some elements from
     # ends) are the furthest from 'x'.
     # When the size of the window [l, r] becomes k, then we have found the solution
-    # If n is the total number of elements, we just need to elminate 'n - k' elements.
+    # If n is the total number of elements, we just need to eliminate 'n - k' elements.
     l, r = 0, len(arr) - 1
 
     # Keep on elminating elements as long as our range [l, r] still contains
