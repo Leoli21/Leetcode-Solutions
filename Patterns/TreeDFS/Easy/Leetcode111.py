@@ -1,3 +1,7 @@
+# Recursive DFS
+import collections
+
+
 def minDepth(root):
     # Corner Case. Should never be hit unless we encounter a
     # node with a 'None' value.
@@ -21,4 +25,22 @@ def minDepth(root):
     # to account for the root node as part of the depth.
     return min(minDepth(root.left), minDepth(root.right)) + 1
 
+# BFS Solution
+def minDepth(self, root):
+    if not root:
+        return 0
 
+    # Tree has at least one node
+    q = collections.deque([(root, 1)])
+    while q:
+        node, depth = q.popleft()
+        # If we pop a null node, we end up just skipping
+        # it and popping the next node in queue
+        if node:
+            # The first leaf node that we encounter, will be
+            # our answer
+            if not node.left and not node.right:
+                return depth
+            else:
+                q.append((node.left, depth + 1))
+                q.append((node.right, depth + 1))
