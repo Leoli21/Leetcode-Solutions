@@ -9,6 +9,10 @@ def isPalindrome(head):
         fast = fast.next.next
 
     # Reverse the second half of the linked list
+
+    # Have the second half of the linked list end at 'None'
+    # so that we can have a termination when comparing the
+    # two later.
     slowsNewNext = None
     while slow:
         # Temp variable that stores slow's right-next node
@@ -27,6 +31,9 @@ def isPalindrome(head):
 
     # Compare first half of list and the reversed second
     # half of the list
+
+    # Eventually slowsNewNext will reach a 'None' node, leading
+    # to termination (signalling the end of the palindrome)
     while slowsNewNext:
         if slowsNewNext.val != head.val:
             return False
