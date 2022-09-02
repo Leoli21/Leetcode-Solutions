@@ -1,3 +1,6 @@
+import collections
+
+
 def hasPathSum(root, targetSum):
     # We have reached the bottom of a path and have
     # not found a sum = 'targetSum'
@@ -48,4 +51,27 @@ def hasPathSum(root, targetSum):
             stack.append((node.right, remSum - node.val))
 
     # We have explored all paths, return False
+    return False
+
+# BFS w/ Queue
+def hasPathSum(self, root, targetSum):
+    # Edge Case: given a tree with no nodes
+    if not root:
+        return False
+
+    q = collections.deque([(root, targetSum)])
+
+    while q:
+        node, remain = q.popleft()
+        if not node.left and not node.right and node.val == remain:
+            return True
+        # Subtract current node's value from the remaining target sum
+        # before adding node's left or right children (if it has any)
+        # for further exploration.
+        remain -= node.val
+        if node.left:
+            q.append((node.left, remain))
+
+        if node.right:
+            q.append((node.right, remain))
     return False
