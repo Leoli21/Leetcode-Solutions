@@ -7,7 +7,7 @@ def maxDepth(self, root):
 
     return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
-# BFS using Deque
+# DFS using Deque
 def maxDepth(root):
     if not root:
         return 0
@@ -62,6 +62,11 @@ def maxDepth(root):
     depth = 0
     while stack:
         node, level = stack.pop()
+        # If the node we popped exists, consider the current node's
+        # depth and check if we need to update our maxDepth
+        # Then add the current node's left and right children with their
+        # depth's increased by 1. This adds 'None' children too, but will be
+        # caught with the 'if' statement.
         if node:
             depth = max(depth, level)
             stack.append((node.left, level + 1))
