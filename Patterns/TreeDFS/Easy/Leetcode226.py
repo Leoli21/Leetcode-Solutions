@@ -30,6 +30,20 @@ def invertTree(self, root):
     if not root:
         return root
 
+    # We must store the left subtree of root into a 'temp' variable because
+    # when we call root.left = self.invertTree(root.right), 'root.left' ends up
+    # becoming the value of root.right.
+    # So if you don't store the left subtree in a 'temp', you end up passing
+    # root.right to root left and root.right to root.right as well b/c root.left
+    # was changed to root.right before.
+    '''
+    temp = root.left
+    root.left = self.invertTree(root.right)
+    root.right = self.invertTree(temp)
+    return root
+    
+    '''
+
     # Swap the left and right children while calling invertTree() on the root's
     # children so that by the time the swap occurs, the children of the 'root'
     # are already all swapped.
