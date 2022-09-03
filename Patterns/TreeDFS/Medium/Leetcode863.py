@@ -1,88 +1,80 @@
-# Constructs a map that maps each node to its parent.
-# Then performs DFS to retrieve all nodes within the given distance
-# using parent map.
+
 import collections
 from collections import defaultdict
-
-
-def buildParentMap(self, node, parent, parentMap):
-    if node is None:
-        return
-
-    parentMap[node] = parent
-    self.buildParentMap(node.left, node, parentMap)
-    self.buildParentMap(node.right, node, parentMap)
-
-def distanceK(self, root, target, k):
-    # Dictionary storing a node mapped to its parent node
-    parentMap = {}
-
-    # Use DFS to build a map that maps a node to its parent
-    self.buildParentMap(root, None, parentMap)
-
-    # Keep track of which nodes have been visited
-    visited = set()
-    res = []
-
-    # DFS used to retrieve the nodes within the given distance
-    # Start from the target node
-    def dfs(node, distance):
-        if node is None or node in visited:
-            return
-
-        visited.add(node)
-
-        if distance == k:
-            res.append(node.val)
-
-        elif distance < k:
-            dfs(node.left, distance + 1)
-            dfs(node.right, distance + 1)
-            dfs(parentMap[node], distance + 1)
-    dfs(target, 0)
-    return res
-
 
 # Solution that constructs a graph of the Tree using DFS and
 # then performs BFS on the graph to find the nodes distance k
 # from target
 def distanceK(self, root, target, k):
-    graph = defaultdict(list)
+    # The graph dictionary will essentially map every node with its neighboring
+    # nodes. This includes it's parent, left, and right.
+    # For example:
+    # graph = {
+    #   3: [5, 1],
+    #   5: [3, 6, 2],
+    #   6: [5],
+    #   etc...
+    # }
+    graph = collections.defaultdict(list)
 
+    # Construct our graph using DFS
     self.buildGraph(root, None, graph)
 
-    q = collections.deque([(target, 0)])
+    # Conduct a BFS on the graph to find all nodes distance 'k' from
+    # the target
 
+    # Each entry in our deque will be a tuple, (node, distance), representing
+    # the current node and it's distance from the target
+    q = collections.deque([(target, 0)])
+    res = []
     visited = set()
 
-    res = []
     while q:
-        node, distance = q.popleft()
+        # Get the current node from queue and it's distance
+        node, dist = q.popleft()
+
+        # If we have already visited this current node, then just continue
+        # with next element in our queue
         if node in visited:
             continue
 
+        # Add it to our visited nodes, so that we do not enounter it again
+        # in our BFS and risk adding it to our 'res' twice
         visited.add(node)
 
-        if distance == k:
+        # Check if we have reached nodes that are distance 'k' from
+        # target
+        if dist == k:
             res.append(node.val)
 
-        elif distance < k:
+        # Check if we still need to traverse more levels of the graph
+        elif dist < k:
+            # Add the current node's neighbors using the 'graph' dictionary
+            # to our queue for exploration in our next iteration
             for child in graph[node]:
-                q.append((child, distance + 1))
+                q.append((child, dist + 1))
 
     return res
 
-def buildGraph(self, node, parent, graph):
-    if not node:
-        return node
 
+def buildGraph(self, node, parent, graph):
+    # If reach a 'None' node, just do nothing and return
+    if not node:
+        return None
+
+    # If our node has a parent, add it as a neighbor to it's entry
+    # in the graph
     if parent:
         graph[node].append(parent)
 
+    # If our node has a left child, add it as an entry to the graph
+    # Then explore it's left child
     if node.left:
         graph[node].append(node.left)
         self.buildGraph(node.left, node, graph)
 
+    # If our node has a right child, add it as an entry to the graph
+    # Then explore it's right child.
     if node.right:
         graph[node].append(node.right)
         self.buildGraph(node.right, node, graph)
