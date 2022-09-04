@@ -22,11 +22,11 @@ def buildTree(self, preorder, inorder):
     leftPreorder = preorder[1: len(leftInorder) + 1]
 
     # Remaining possible node values that could be a root in our
-    # right subtree for current node
+    # right subtree for current node would start at 1 + the length
+    # of our leftPreorder partition.
     rightPreorder = preorder[len(leftPreorder) + 1:]
 
     root.left = self.buildTree(leftPreorder, leftInorder)
     root.right = self.buildTree(rightPreorder, rightInorder)
 
     return root
-

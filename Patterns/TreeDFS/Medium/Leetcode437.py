@@ -21,7 +21,7 @@ def pathSum(self, root, targetSum):
         # Check if the current path from root to current node
         # equals the targetSum
         if curSum == targetSum:
-            self.total += 1
+            self.total  += 1
 
         # Check if there is a path between the root and current node
         # where the pathSum is equal to targetSum

@@ -16,8 +16,8 @@ def lowestCommonAncestor(self, root, p, q):
 
     # Analyze Results after we hit the base cases and return upwards
 
-    # If both of current node's children found a node and returned something,
-    # the parent is the LCA
+    # If both left and right children of current node found 'p' and 'q',
+    # the current node is the LCA
     if left and right:
         return root
 
