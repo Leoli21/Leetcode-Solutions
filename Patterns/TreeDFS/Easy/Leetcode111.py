@@ -12,11 +12,13 @@ def minDepth(root):
     if root.left is None and root.right is None:
         return 1
 
-    # If left subtree is None, recur for right subtree
+    # If left subtree is None, we just use the depth of the
+    # right subtree
     if root.left is None:
         return minDepth(root.right) + 1
 
-    # If right subtree is None , recur for left subtree
+    # If right subtree is None, we just use the depth of the
+    # left subtree
     if root.right is None:
         return minDepth(root.left) + 1
 
@@ -31,16 +33,25 @@ def minDepth(self, root):
         return 0
 
     # Tree has at least one node
-    q = collections.deque([(root, 1)])
+    q = collections.deque([root])
+
+    # Maintain a variable that indicates the current depth
+    # of the tree we are exploring
+    depth = 1
     while q:
-        node, depth = q.popleft()
-        # If we pop a null node, we end up just skipping
-        # it and popping the next node in queue
-        if node:
-            # The first leaf node that we encounter, will be
-            # our answer
+        for i in range(len(q)):
+            node = q.popleft()
+
+            # If leaf node (no left or right children, return the depth)
+            # Essentially we are looking for the first leaf node that we encounter
+            # and returning the depth where that first leaf node is found.
             if not node.left and not node.right:
                 return depth
-            else:
-                q.append((node.left, depth + 1))
-                q.append((node.right, depth + 1))
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+
+        # Increase depth by one after finishing traversing a level
+        depth += 1
+
