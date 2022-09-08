@@ -32,20 +32,32 @@ def dfs(self, node, level, res):
 
 # DFS w/ Stack
 def levelOrderBottom(self, root):
-    stack = [(root, 0)]
+    if not root:
+        return []
+
     res = []
+    stack = [(root, 1)]
     while stack:
-        node, level = stack.pop()
-        if node:
-            if len(res) < level + 1:
-                res.insert(0, [])
-            res[-(level + 1)].append(node.val)
-            # Append the right child first because then we end
-            # up evaluating the left child first when popping from
-            # the stack. This ensures the correct order of processing.
-            # Left Child -> Right Child
-            stack.append((node.right, level + 1))
-            stack.append((node.left, level + 1))
+        node, depth = stack.pop()
+        if len(res) < depth:
+            res.insert(0, [])
+
+        # Make sure to use the index of '-depth' because we are constantly
+        # inserting new arrays to the front of res and thus the index ordering
+        # of our array is reversed.
+        # nodes at depth 1 are at -1 in res (or the last array in res)
+        # nodes at depth 2 are at -2 in res (or the second to last array in res)
+        # nodes at depth 3 are at -3 in res
+        res[-depth].append(node.val)
+
+        # Append the right child first because then we end
+        # up evaluating the left child first when popping from
+        # the stack. This ensures the correct order of processing.
+        # Left Child -> Right Child
+        if node.right:
+            stack.append((node.right, depth + 1))
+        if node.left:
+            stack.append((node.left, depth + 1))
     return res
 
 # BFS
