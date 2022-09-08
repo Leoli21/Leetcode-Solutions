@@ -57,6 +57,10 @@ def connect(self, root):
 # BFS (Optimized)
 def connect(self, root):
     head = root
+
+    # As long as the there exists another level below the level we
+    # just traversed, we continue. This works becuase root is currently
+    # marking the next level that we need to traverse.
     while root:
         # Set 'cur' to the first node of the next level and set 'root' to the
         # updated 'cur' left child (which is the next level's first node).
