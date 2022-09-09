@@ -24,4 +24,24 @@ def dfs(self, cur, targetSum, curRes, res):
     self.dfs(cur.left, targetSum - cur.val, curRes + [cur.val], res)
     self.dfs(cur.right, targetSum - cur.val, curRes + [cur.val], res)
 
+# BFS Solution
+def pathSum(self, root, targetSum):
+    if not root:
+        return []
+
+    res = []
+    q = collections.deque([(root, [], targetSum)])
+
+    while q:
+        node, currRes, remain = q.popleft()
+        if not node.left and not node.right and node.val == remain:
+            res.append(currRes + [node.val])
+
+        if node.left:
+            q.append([node.left, currRes + [node.val], remain - node.val])
+
+        if node.right:
+            q.append([node.right, currRes + [node.val], remain - node.val])
+
+    return res
 
