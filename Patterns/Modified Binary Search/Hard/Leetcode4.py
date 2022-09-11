@@ -16,6 +16,10 @@ def findMedianSortedArrays(nums1, nums2):
         # Calculate the 4 Boundary Number of each partition that will be used for
         # comparison
         maxLeftX = float('-inf') if partitionX == 0 else nums1[partitionX - 1]
+
+        # We dont need to subtract from partitionX b/c partitionX represents the length
+        # of our first half of X partition. Thus, the index at partitionX, would be the
+        # first element of our second half of the partition.
         minRightX = float('inf') if partitionX == x else nums1[partitionX]
 
         maxLeftY = float('-inf') if partitionY == 0 else nums2[partitionY - 1]
