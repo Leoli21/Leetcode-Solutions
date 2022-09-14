@@ -56,29 +56,31 @@ def connect(self, root):
 # Solution 3:
 # BFS (Optimized)
 def connect(self, root):
-    head = root
+    # Edge Case: number of nodes in tree is 0
+    if not root:
+        return root
 
-    # As long as the there exists another level below the level we
-    # just traversed, we continue. This works becuase root is currently
-    # marking the next level that we need to traverse.
-    while root:
-        # Set 'cur' to the first node of the next level and set 'root' to the
-        # updated 'cur' left child (which is the next level's first node).
-        cur, root = root, root.left
-        # While we still have more nodes in current level
-        # to process, continue to update the next pointers
-        # of 'cur' pointer's children.
-        while cur:
-            # If there is a level below the current node's level, we
-            # can assign the next pointers
-            if cur.left:
-                cur.left.next = cur.right
-                if cur.next:
-                    cur.right.next = cur.next.left
-            # We are currently on the last level of the tree, therefore break.
-            else:
-                break
-            # Set the current pointer to the next node on the current level.
-            cur = cur.next
-    return head
+    # Pointer that marks the first node of the next parent level to be traversed
+    nextParentLevel = root
+
+    # As long as we have another parent level to traverse after current level.
+    # This will terminate on the last level of a tree as there are no more children
+    # nodes to process.
+    while nextParentLevel.left:
+        # Set the current level of parent nodes to traverse to the nextParentLevel before
+        # moving it to the next parent level
+        currentParent = nextParentLevel
+        nextParentLevel = nextParentLevel.left
+
+        # As long as there are more parent nodes in current level, continue
+        # processing child nodes
+        while currentParent:
+            # We can guarantee that the level we are at has a level below it due to
+            # the outer while loop condition
+            currentParent.left.next = currentParent.right
+            if currentParent.next:
+                currentParent.right.next = currentParent.next.left
+            # Set the parent pointer to the next parent node in current level
+            currentParent = currentParent.next
+    return root
 
