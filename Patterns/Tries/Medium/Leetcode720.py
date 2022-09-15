@@ -27,6 +27,9 @@ class Trie:
         while q:
             cur = q.popleft()
             for n in cur.children.values():
+                # We only care about complete prefixes of current node that exist in 'words' (these were
+                # added to our Trie). Using those prefixes, we check if there exists a longer prefix/word
+                # in our Trie using the appended node.
                 if n.isEnd:
                     q.append(n)
                     if len(n.word) > len(res) or n.word < res:
